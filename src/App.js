@@ -1,13 +1,98 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 
-function App() {
-  return (
-    <div>
-      sup
-    </div>
-  );
+class App extends React.Component {
+
+  state = {
+    tips: [],
+    restaurants: []
+  }
+
+  componentDidMount() {
+    fetch('http://localhost:3000/tips')
+    .then(resp => resp.json())
+    .then(data => this.setState({
+      tips: data
+    }))
+
+    fetch('http://localhost:3000/restaurants')
+    .then(resp => resp.json())
+    .then(data => this.setState({
+      restaurants: data
+    }))
+  }
+  
+handleNewRestaurant = (event) => {
+  fetch('http://localhost:3000/restaurants', {
+    method:"POST",
+    headers: {
+      "Accept": "application/json",
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      name: event.target.name.value,
+      location: event.target.location.value
+    })
+  })
+}
+
+handleNewTip = (event) => {
+  fetch('http://localhost:3000/tips', {
+    method: "POST",
+    headers: {
+      "Accept": "application/json",
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      amount: event.target.amount.value,
+      date: event.target.date.value,
+      restaurant_id: event.target.restaurant_id.value
+    })
+  })
+}
+
+  render() {
+    return (
+      <div>
+        <div>
+          <form onSubmit={this.handleNewRestaurant}>
+            Add new restaurant!
+            <br />
+            Name: <input type="text" name="name" />
+            <br />
+            Location: <input type="text" name="location" />
+            <br />
+            <input type="submit" />
+          </form>
+        </div>
+        <br />
+        <div>
+          <form onSubmit={this.handleNewTip}>
+            Add a new tip!
+            <br />
+            Amount: <input type="text" name="amount" />
+            <br />
+            Date: <input type="text" name="date" />
+            <br />
+            Restaurant ID: <input type="number" name="restaurant_id" />
+            <br />
+            <input type="submit" />
+          </form>
+        </div>
+        <div>
+          <h2>Tips:</h2>
+          <ol>
+            {this.state.tips.map(tip => <li>{tip.amount}</li>)}
+          </ol>
+          <br />
+          <h2>Restaurants:</h2>
+          <ol>
+            {this.state.restaurants.map(restaurant => <li>{restaurant.name}</li>)}
+          </ol>
+        </div>
+      </div>
+    )
+  }
 }
 
 export default App;
