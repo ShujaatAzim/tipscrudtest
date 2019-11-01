@@ -51,6 +51,18 @@ handleNewTip = (event) => {
   })
 }
 
+handleRestaurantDelete = (event) => {
+  fetch(`http://localhost:3000/restaurants/${event.currentTarget.parentNode.id}`, {
+    method: "DELETE"
+  })
+}
+
+handleTipDelete = (event) => {
+  fetch(`http://localhost:3000/tips/${event.currentTarget.parentNode.id}`, {
+    method: "DELETE"
+  })
+}
+
   render() {
     return (
       <div>
@@ -81,13 +93,15 @@ handleNewTip = (event) => {
         </div>
         <div>
           <h2>Tips:</h2>
-          <ol>
-            {this.state.tips.map(tip => <li>{tip.amount}</li>)}
-          </ol>
+            <ol>
+              {this.state.tips.map(tip => <li key={tip.id} id={tip.id}><b>{tip.amount}</b> on {tip.date}{"   "}
+                <button onClick={this.handleTipDelete}>X</button></li>)}
+            </ol>
           <br />
           <h2>Restaurants:</h2>
           <ol>
-            {this.state.restaurants.map(restaurant => <li>{restaurant.name}</li>)}
+            {this.state.restaurants.map(restaurant => <li key={restaurant.id }id={restaurant.id}><b>{restaurant.name}</b> --> {restaurant.location}{"   "}
+              <button key={restaurant.id} onClick={this.handleRestaurantDelete}>X</button></li>)}
           </ol>
         </div>
       </div>
