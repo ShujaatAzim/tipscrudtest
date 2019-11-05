@@ -1,4 +1,8 @@
 import React from 'react';
+import Restaurant from './Components/Restaurant';
+import Tip from './Components/Tip';
+import EditRestaurant from './Components/EditRestaurant';
+import EditTip from './Components/EditTip';
 
 class App extends React.Component {
 
@@ -9,7 +13,9 @@ class App extends React.Component {
     restaurantLocation: "",
     tipAmount: "",
     tipDate: "",
-    tipLocation: ""
+    tipLocation: "",
+    editRestaurant: false,
+    editTip: false
   }
 
   componentDidMount() {
@@ -58,61 +64,73 @@ class App extends React.Component {
     }))
   }
 
-handleNewTip = (event) => {
-  event.preventDefault()
-  fetch('http://localhost:3000/tips', {
-    method: "POST",
-    headers: {
-      "Accept": "application/json",
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      amount: this.state.tipAmount,
-      date: this.state.tipDate,
-      restaurant_id: this.state.tipLocation
+  handleNewTip = (event) => {
+    event.preventDefault()
+    fetch('http://localhost:3000/tips', {
+      method: "POST",
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        amount: this.state.tipAmount,
+        date: this.state.tipDate,
+        restaurant_id: this.state.tipLocation
+      })
     })
-  })
-  .then(this.setState({
-    tipAmount: "",
-    tipDate: "",
-    tipLocation: ""
-  }))
-  .then(this.getTips)
-}
+    .then(this.setState({
+      tipAmount: "",
+      tipDate: "",
+      tipLocation: ""
+    }))
+    .then(this.getTips)
+  }
 
-handleRestaurantDelete = (event) => {
-  const deletedRestaurant = event.currentTarget.parentNode.id
-  fetch(`http://localhost:3000/restaurants/${deletedRestaurant}`, {
-    method: "DELETE",
-    headers: {
-      "Content-Type": "application/json",
-      "Accepts": "application/json"
-    },
-    body: JSON.stringify(deletedRestaurant)
-  })
-  .then(this.getRestaurants)
-}
+  handleRestaurantDelete = (event) => {
+    const deletedRestaurant = event.currentTarget.parentNode.id
+    fetch(`http://localhost:3000/restaurants/${deletedRestaurant}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "Accepts": "application/json"
+      },
+      body: JSON.stringify(deletedRestaurant)
+    })
+    .then(this.getRestaurants)
+  }
 
-handleTipDelete = (event) => {
-  const deletedTip = event.currentTarget.parentNode.id
-  fetch(`http://localhost:3000/tips/${deletedTip}`, {
-    method: "DELETE",
-    headers: {
-      "Content-Type": "application/json",
-      "Accepts": "application/json"
-    },
-    body: JSON.stringify(deletedTip)
-  })
-  .then(this.getTips)
-}
+  handleTipDelete = (event) => {
+    const deletedTip = event.currentTarget.parentNode.id
+    fetch(`http://localhost:3000/tips/${deletedTip}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "Accepts": "application/json"
+      },
+      body: JSON.stringify(deletedTip)
+    })
+    .then(this.getTips)
+  }
 
-changeForm = (event) => {
-  const name = event.target.name
-  const value = event.target.value
-  this.setState({
-    [name]: value
-  })
-}
+  changeForm = (event) => {
+    const name = event.target.name
+    const value = event.target.value
+    this.setState({
+      [name]: value
+    })
+  }
+
+  handleRestaurantEdit = () => {
+    this.setState({
+      editRestaurant: this.state.editRestaurant ? false : true
+    })
+  }
+
+  handleTipEdit = () => {
+    this.setState({
+      editTip: this.state.editTip ? false : true
+    })
+  }
 
   render() {
     return (
@@ -143,16 +161,19 @@ changeForm = (event) => {
         <div>
           <h2>Tips:</h2>
             <ol>
-              {this.state.tips.map(tip => <li key={tip.id} id={tip.id}><b>{tip.amount}</b> on {tip.date}{"   "}
-                <button onClick={this.handleTipDelete}>X</button></li>)}
+              {this.state.tips.map(tip => 
+              <Tip key={tip.id} tipObj={tip} handleTipEdit={this.handleTipEdit} 
+                handleTipDelete={this.handleTipDelete} /> )}
             </ol>
           <br />
           <h2>Restaurants:</h2>
           <ol>
-            {this.state.restaurants.map(restaurant => <li key={restaurant.id }id={restaurant.id}><b>{restaurant.name}</b> --> {restaurant.location}{"   "}
-              <button key={restaurant.id} onClick={this.handleRestaurantDelete}>X</button></li>)}
+            {this.state.restaurants.map(restaurant => 
+              <Restaurant key={restaurant.id} restaurantObj={restaurant} handleRestaurantEdit={this.handleRestaurantEdit} 
+                handleRestaurantDelete={this.handleRestaurantDelete} />)}
           </ol>
         </div>
+        {this.state.editRestaurant ? <EditRestaurant /> : this.state.editTip ? <EditTip /> : null}
       </div>
     )
   }
