@@ -14,8 +14,11 @@ class App extends React.Component {
     tipAmount: "",
     tipDate: "",
     tipLocation: "",
+    editing: false,
     editRestaurant: false,
-    editTip: false
+    editTip: false,
+    clickedRestaurant: null,
+    clickedTip: null
   }
 
   componentDidMount() {
@@ -122,14 +125,44 @@ class App extends React.Component {
 
   handleRestaurantEdit = () => {
     this.setState({
+      editing: true,
       editRestaurant: this.state.editRestaurant ? false : true
     })
   }
 
   handleTipEdit = () => {
     this.setState({
+      editing: true,
       editTip: this.state.editTip ? false : true
     })
+  }
+
+  clickedRestaurant = (restaurant) => {
+    this.setState({
+      clickedRestaurant: restaurant
+    })
+  }
+
+  clickedTip = (tip) => {
+    this.setState({
+      clickedTip: tip
+    })
+  }
+
+  cancelEdit = () => {
+    this.setState({
+      editing: false,
+      editRestaurant: false,
+      editTip: false
+    })
+  }
+
+  updateAllTips = () => {
+    this.getTips()
+  }
+
+  updateAllRestaurants = () => {
+    this.getRestaurants()
   }
 
   render() {
@@ -163,17 +196,18 @@ class App extends React.Component {
             <ol>
               {this.state.tips.map(tip => 
               <Tip key={tip.id} tipObj={tip} handleTipEdit={this.handleTipEdit} 
-                handleTipDelete={this.handleTipDelete} /> )}
+                handleTipDelete={this.handleTipDelete} editing={this.state.editing} clickedTip={this.clickedTip}/> )}
             </ol>
           <br />
           <h2>Restaurants:</h2>
           <ol>
             {this.state.restaurants.map(restaurant => 
               <Restaurant key={restaurant.id} restaurantObj={restaurant} handleRestaurantEdit={this.handleRestaurantEdit} 
-                handleRestaurantDelete={this.handleRestaurantDelete} />)}
+                handleRestaurantDelete={this.handleRestaurantDelete} editing={this.state.editing} clickedRestaurant={this.clickedRestaurant}/> )}
           </ol>
         </div>
-        {this.state.editRestaurant ? <EditRestaurant /> : this.state.editTip ? <EditTip /> : null}
+        { this.state.editRestaurant && !this.state.editTip ? <EditRestaurant updateAllRestaurants={this.updateAllRestaurants} clickedRestaurant={this.state.clickedRestaurant} cancelEdit={this.cancelEdit} /> : null }
+        { this.state.editTip && !this.state.editRestaurant ? <EditTip updateAllTips={this.updateAllTips} clickedTip={this.state.clickedTip} cancelEdit={this.cancelEdit} /> : null }
       </div>
     )
   }

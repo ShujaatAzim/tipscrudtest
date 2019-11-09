@@ -7,9 +7,9 @@ class Tip extends React.Component {
     const tip = this.props.tipObj
 
     return (
-      <li id={tip.id}><b>{tip.amount}</b> on {tip.date}{"   "}
-        <button onClick={this.props.handleTipEdit}>Edit</button>
-        <button onClick={this.props.handleTipDelete}>Delete</button>
+      <li id={tip.id}><b>{tip.amount}</b> on <b>{tip.date}</b> at <b>{tip.restaurant.name}</b>{"   "}
+        <button onClick={() => { this.props.handleTipEdit(); this.props.clickedTip(tip) }} disabled={this.props.editing}>Edit</button>
+        <button onClick={this.props.handleTipDelete} disabled={this.props.editing}>Delete</button>
       </li>
     )
   }

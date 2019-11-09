@@ -8,8 +8,9 @@ class Restaurant extends React.Component {
 
     return (
       <li id={restaurant.id}><b>{restaurant.name}</b> --> {restaurant.location}{"   "}
-        <button onClick={this.props.handleRestaurantEdit}>Edit</button>
-        <button key={restaurant.id} onClick={this.props.handleRestaurantDelete}>Delete</button>
+        <button onClick={() => { this.props.handleRestaurantEdit(); this.props.clickedRestaurant(restaurant) }} 
+          disabled={this.props.editing}>Edit</button>
+        <button key={restaurant.id} onClick={this.props.handleRestaurantDelete} disabled={this.props.editing}>Delete</button>
       </li>
     )
   }
