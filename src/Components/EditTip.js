@@ -51,7 +51,7 @@ class EditTip extends React.Component {
   render() {
     return (
       <div>
-        <h1>Editing the {this.props.clickedTip.amount} Tip<button onClick={this.props.cancelEdit}>Cancel</button></h1>
+        <h3>Editing the {this.props.clickedTip.amount} Tip<button onClick={this.props.cancelEdit}>Cancel</button></h3>
         <form onSubmit={this.finalizeNewTip}>
           <label>Change Amount</label>
           <input type="text" value={this.state.newTipAmount} name="newTipAmount" onChange={this.changeTip} />

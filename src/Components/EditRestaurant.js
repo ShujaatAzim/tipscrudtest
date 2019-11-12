@@ -48,7 +48,7 @@ class EditRestaurant extends React.Component {
   render() {
     return (
       <div>
-        <h1>Editing {this.props.clickedRestaurant.name}<button onClick={this.props.cancelEdit}>Cancel</button></h1>
+        <h3>Editing {this.props.clickedRestaurant.name}<button onClick={this.props.cancelEdit}>Cancel</button></h3>
         <form onSubmit={this.finalizeNewRestaurant}>
           <label>Change Name</label>
           <input type="text" name="newRestaurantName" value={this.state.newRestaurantName} onChange={this.changeRestaurant} />

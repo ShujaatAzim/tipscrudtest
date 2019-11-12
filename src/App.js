@@ -192,14 +192,13 @@ class App extends React.Component {
           </form>
         </div>
         <div>
-          <h2>Tips:</h2>
+          <h3>Tips:</h3>
             <ol>
               {this.state.tips.map(tip => 
               <Tip key={tip.id} tipObj={tip} handleTipEdit={this.handleTipEdit} 
                 handleTipDelete={this.handleTipDelete} editing={this.state.editing} clickedTip={this.clickedTip}/> )}
             </ol>
-          <br />
-          <h2>Restaurants:</h2>
+          <h3>Restaurants:</h3>
           <ol>
             {this.state.restaurants.map(restaurant => 
               <Restaurant key={restaurant.id} restaurantObj={restaurant} handleRestaurantEdit={this.handleRestaurantEdit} 
