@@ -192,7 +192,7 @@ class App extends React.Component {
             Restaurant: 
               <select value={this.state.tipLocation} name="tipLocation" onChange={this.changeForm}>
                 <option value="" disabled>Select a Restaurant</option>
-                {this.state.restaurants.map(restaurant => <option>{restaurant.name}</option>)}
+                {this.state.restaurants.map(restaurant => <option key={restaurant.id}>{restaurant.name}</option>)}
               </select>
             <br />
             <input type="submit" />
@@ -213,7 +213,7 @@ class App extends React.Component {
           </ol>
         </div>
         { this.state.editRestaurant && !this.state.editTip ? <EditRestaurant updateAllRestaurants={this.updateAllRestaurants} clickedRestaurant={this.state.clickedRestaurant} cancelEdit={this.cancelEdit} /> : null }
-        { this.state.editTip && !this.state.editRestaurant ? <EditTip updateAllTips={this.updateAllTips} clickedTip={this.state.clickedTip} cancelEdit={this.cancelEdit} /> : null }
+        { this.state.editTip && !this.state.editRestaurant ? <EditTip updateAllTips={this.updateAllTips} clickedTip={this.state.clickedTip} cancelEdit={this.cancelEdit} allRestaurants={this.state.restaurants}/> : null }
       </div>
     )
   }

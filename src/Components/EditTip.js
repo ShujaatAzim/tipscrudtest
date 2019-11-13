@@ -5,14 +5,16 @@ class EditTip extends React.Component {
   state = {
     newTipAmount: "",
     newTipDate: "",
-    newTipLocation: ""
+    newTipLocation: "",
+    allRestaurants: []
   }
 
   componentDidMount() {
     this.setState({
       newTipAmount: this.props.clickedTip.amount,
       newTipDate: this.props.clickedTip.date,
-      newTipLocation: this.props.clickedTip.restaurant.id
+      newTipLocation: this.props.clickedTip.restaurant.name,
+      allRestaurants: this.props.allRestaurants
     })
   }
 
@@ -26,6 +28,8 @@ class EditTip extends React.Component {
 
   finalizeNewTip = (event) => {
     event.preventDefault()
+    let restaurantID = this.state.allRestaurants.find(restaurant => restaurant.name === this.state.newTipLocation)
+    console.log(restaurantID)
     fetch(`http://localhost:3000/tips/${this.props.clickedTip.id}`, {
       method: "PATCH",
       headers: {
@@ -35,7 +39,7 @@ class EditTip extends React.Component {
       body: JSON.stringify({
         amount: this.state.newTipAmount,
         date: this.state.newTipDate,
-        restaurant_id: this.state.newTipLocation
+        restaurant_id: restaurantID.id
       })
     })
     .then(resp => resp.json())
@@ -57,8 +61,10 @@ class EditTip extends React.Component {
           <input type="text" value={this.state.newTipAmount} name="newTipAmount" onChange={this.changeTip} />
           <label>Change Date</label>
           <input type="text" value={this.state.newTipDate} name="newTipDate" onChange={this.changeTip} />
-          <label>Change Restaurant ID</label>
-          <input type="text" value={this.state.newTipLocation} name="newTipLocation" onChange={this.changeTip} />
+          <label>Change Restaurant</label>
+          <select type="text" value={this.state.newTipLocation} name="newTipLocation" onChange={this.changeTip}>
+            {this.props.allRestaurants.map(restaurant => <option key={restaurant.id}>{restaurant.name}</option>)}
+          </select>
           <input type="submit" />
         </form>
       </div>
