@@ -69,6 +69,7 @@ class App extends React.Component {
 
   handleNewTip = (event) => {
     event.preventDefault()
+    let restaurantID = this.state.restaurants.find(restaurant => restaurant.name === this.state.tipLocation)
     fetch('http://localhost:3000/tips', {
       method: "POST",
       headers: {
@@ -78,7 +79,7 @@ class App extends React.Component {
       body: JSON.stringify({
         amount: this.state.tipAmount,
         date: this.state.tipDate,
-        restaurant_id: this.state.tipLocation
+        restaurant_id: restaurantID.id
       })
     })
     .then(this.setState({
@@ -182,11 +183,17 @@ class App extends React.Component {
         <div>
           <form onSubmit={this.handleNewTip}>
             <h2>Add a new tip!</h2>
-            Amount: <input type="text" value={this.state.tipAmount} name="tipAmount" onChange={this.changeForm} />
+            Amount: 
+              <input type="text" value={this.state.tipAmount} name="tipAmount" onChange={this.changeForm} />
             <br />
-            Date: <input type="text" value={this.state.tipDate} name="tipDate" onChange={this.changeForm} />
+            Date: 
+              <input type="text" value={this.state.tipDate} name="tipDate" onChange={this.changeForm} />
             <br />
-            Restaurant ID: <input type="number" value={this.state.tipLocation} name="tipLocation" onChange={this.changeForm} />
+            Restaurant: 
+              <select value={this.state.tipLocation} name="tipLocation" onChange={this.changeForm}>
+                <option value="" disabled>Select a Restaurant</option>
+                {this.state.restaurants.map(restaurant => <option>{restaurant.name}</option>)}
+              </select>
             <br />
             <input type="submit" />
           </form>
