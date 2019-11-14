@@ -212,8 +212,15 @@ class App extends React.Component {
                 handleRestaurantDelete={this.handleRestaurantDelete} editing={this.state.editing} clickedRestaurant={this.clickedRestaurant}/> )}
           </ol>
         </div>
-        { this.state.editRestaurant && !this.state.editTip ? <EditRestaurant updateAllRestaurants={this.updateAllRestaurants} clickedRestaurant={this.state.clickedRestaurant} cancelEdit={this.cancelEdit} /> : null }
-        { this.state.editTip && !this.state.editRestaurant ? <EditTip updateAllTips={this.updateAllTips} clickedTip={this.state.clickedTip} cancelEdit={this.cancelEdit} allRestaurants={this.state.restaurants}/> : null }
+        
+        { this.state.editRestaurant && !this.state.editTip ? 
+          <EditRestaurant updateAllRestaurants={this.updateAllRestaurants} clickedRestaurant={this.state.clickedRestaurant} 
+          cancelEdit={this.cancelEdit} /> : null }
+
+        { this.state.editTip && !this.state.editRestaurant ? 
+          <EditTip updateAllTips={this.updateAllTips} clickedTip={this.state.clickedTip} cancelEdit={this.cancelEdit} 
+          allRestaurants={this.state.restaurants}/> : null }
+
       </div>
     )
   }

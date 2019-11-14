@@ -1,19 +1,17 @@
 import React from 'react'
 
-class Restaurant extends React.Component {
+const Restaurant = props => {
 
-  render() {
+  const restaurant = props.restaurantObj
 
-    const restaurant = this.props.restaurantObj
-
-    return (
-      <li id={restaurant.id}><b>{restaurant.name}</b> --> {restaurant.location}{"   "}
-        <button onClick={() => { this.props.handleRestaurantEdit(); this.props.clickedRestaurant(restaurant) }} 
-          disabled={this.props.editing}>Edit</button>
-        <button key={restaurant.id} onClick={this.props.handleRestaurantDelete} disabled={this.props.editing}>Delete</button>
-      </li>
-    )
-  }
+  return (
+    <li id={restaurant.id}><b>{restaurant.name}</b> --> {restaurant.location}{"   "}
+      <button onClick={() => { props.handleRestaurantEdit(); props.clickedRestaurant(restaurant) }} 
+        disabled={props.editing}>Edit</button>
+      <button key={restaurant.id} onClick={props.handleRestaurantDelete} disabled={props.editing}>Delete</button>
+    </li>
+  )
+  
 }
 
 export default Restaurant
