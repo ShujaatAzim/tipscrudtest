@@ -3,6 +3,7 @@ import Restaurant from './Components/Restaurant';
 import Tip from './Components/Tip';
 import EditRestaurant from './Components/EditRestaurant';
 import EditTip from './Components/EditTip';
+import Counters from './Components/Counters'
 
 class App extends React.Component {
 
@@ -167,6 +168,7 @@ class App extends React.Component {
   }
 
   render() {
+
     return (
       <div>
         <div>
@@ -212,7 +214,10 @@ class App extends React.Component {
                 handleRestaurantDelete={this.handleRestaurantDelete} editing={this.state.editing} clickedRestaurant={this.clickedRestaurant}/> )}
           </ol>
         </div>
-        
+        <div>
+          <Counters />
+        </div>
+
         { this.state.editRestaurant && !this.state.editTip ? 
           <EditRestaurant updateAllRestaurants={this.updateAllRestaurants} clickedRestaurant={this.state.clickedRestaurant} 
           cancelEdit={this.cancelEdit} /> : null }
