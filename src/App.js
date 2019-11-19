@@ -170,7 +170,7 @@ class App extends React.Component {
   render() {
 
     return (
-      <div>
+      <div className="blue-font">
         <div>
           <form onSubmit={this.handleNewRestaurant}>
             <h2>Add new restaurant!</h2>
