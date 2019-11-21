@@ -29,7 +29,7 @@ class EditTip extends React.Component {
   finalizeNewTip = (event) => {
     event.preventDefault()
     let restaurantID = this.state.allRestaurants.find(restaurant => restaurant.name === this.state.newTipLocation)
-    console.log(restaurantID)
+
     fetch(`http://localhost:3000/tips/${this.props.clickedTip.id}`, {
       method: "PATCH",
       headers: {
@@ -43,13 +43,8 @@ class EditTip extends React.Component {
       })
     })
     .then(resp => resp.json())
-    .then(this.props.updateAllTips())
-    .then(this.setState({
-      newTipAmount: "",
-      newTipDate: "",
-      newTipLocation: ""
-    }))
-    .then(this.props.cancelEdit())
+    .then(() => this.props.updateAllTips())
+    .then(() => this.props.cancelEdit())
   }
 
   render() {

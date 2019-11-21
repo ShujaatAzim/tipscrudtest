@@ -24,6 +24,7 @@ class EditRestaurant extends React.Component {
 
   finalizeNewRestaurant = (event) => {
     event.preventDefault()
+
     fetch(`http://localhost:3000/restaurants/${this.props.clickedRestaurant.id}`, {
       method: "PATCH",
       headers: {
@@ -36,12 +37,8 @@ class EditRestaurant extends React.Component {
       })
     })
     .then(resp => resp.json())
-    .then(this.props.updateAllRestaurants())
-    .then(this.setState({
-      newRestaurantName: "",
-      newRestaurantLocation: ""
-    }))
-    .then(this.props.cancelEdit())
+    .then(() => this.props.updateAllRestaurants())
+    .then(() => this.props.cancelEdit())
   }
 
 

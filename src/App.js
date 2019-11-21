@@ -37,13 +37,13 @@ class App extends React.Component {
   }
 
   getRestaurants = () => {
-    fetch('http://localhost:3000/restaurants')
+    return fetch('http://localhost:3000/restaurants')
     .then(resp => resp.json())
     .then(restaurants => this.setState({restaurants}))
   }
   
   getTips = () => {
-    fetch('http://localhost:3000/tips')
+    return fetch('http://localhost:3000/tips')
     .then(resp => resp.json())
     .then(tips => this.setState({tips}))
   }
@@ -160,7 +160,7 @@ class App extends React.Component {
   }
 
   updateAllTips = () => {
-    this.getTips()
+    return this.getTips()
   }
 
   updateAllRestaurants = () => {
